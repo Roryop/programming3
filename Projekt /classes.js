@@ -44,6 +44,25 @@ class Creatures{
         }
         return found;
     }
+    move(){
+        let grassFields = this.findFields(this.walkingOn); //array mit pos arrays
+        if (grassFields.length > 0){
+
+            //wähle zufällige Pos aus
+            let randPos = random(grassFields); // x,y
+            let newX = randPos[0];
+            let newY = randPos[1];
+
+            //matrix updaten
+            matrix[newY][newX] = this.color;
+            matrix[this.y][this.x] = this.walkingOn;
+
+            //update
+            this.y = newY;
+            this.x = newX;
+
+        }
+    }
 }
 
 
@@ -99,6 +118,7 @@ class Grazer extends Creatures{
         super(x,y);
         
         this.color = 2;
+        this.walkingOn = 0;
         
         this.rounds1 = 0;
         this.rounds2 = 0;
@@ -130,25 +150,6 @@ class Grazer extends Creatures{
         return super.findFields(objekt);
     }
 
-    move(){
-        let emptyFields = this.findFields(0); //array mit pos arrays
-        if (emptyFields.length > 0){
-
-            //wähle zufällige Pos aus
-            let randPos = random(emptyFields); // x,y
-            let newX = randPos[0];
-            let newY = randPos[1];
-
-            //matrix updaten
-            matrix[newY][newX] = 2;
-            matrix[this.y][this.x] = 0;
-
-            //update
-            this.y = newY;
-            this.x = newX;
-
-        }
-    }
 
     eat(){
         let grassFields = this.findFields(1);
@@ -231,6 +232,7 @@ class Grazerzer extends Creatures{
         this.name = "Koala_hoch4";
 
         this.color = 3;
+        this.walkingOn = 1;
 
         this.rounds1 = 0;
         this.rounds2 = 0;
@@ -260,25 +262,6 @@ class Grazerzer extends Creatures{
         return super.findFields(objekt);
     }
 
-    move(){
-        let grassFields = this.findFields(1); //array mit pos arrays
-        if (grassFields.length > 0){
-
-            //wähle zufällige Pos aus
-            let randPos = random(grassFields); // x,y
-            let newX = randPos[0];
-            let newY = randPos[1];
-
-            //matrix updaten
-            matrix[newY][newX] = 3;
-            matrix[this.y][this.x] = 1;
-
-            //update
-            this.y = newY;
-            this.x = newX;
-
-        }
-    }
 
     eat(){
         let grazerFields = this.findFields(2);
@@ -376,6 +359,7 @@ class Zerstorer extends Creatures{
         this.name = "Koala_hoch6";
 
         this.color = 5;
+        this.walkingOn = 1;
 
         this.teleportCounter = 0;
 
@@ -404,26 +388,6 @@ class Zerstorer extends Creatures{
         return super.findFields(objekt);
     }
 
-    move(){
-        let grassFields = this.findFields(1); //array mit pos arrays
-        if (grassFields.length > 0){
-
-            //wähle zufällige Pos aus
-            let randPos = random(grassFields); // x,y
-            let newX = randPos[0];
-            let newY = randPos[1];
-
-            //matrix updaten
-            matrix[newY][newX] = 5;
-            matrix[this.y][this.x] = 1;
-
-            //update
-            this.y = newY;
-            this.x = newX;
-
-
-        }
-    }
 
     eat(){
         let hausFields = this.findFields(4);
