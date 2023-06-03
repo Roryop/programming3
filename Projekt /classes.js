@@ -1,15 +1,9 @@
-class Grass{
-
+class Creatures{
     constructor(x,y){
 
-        this.name = "Koala_hoch2";
 
         this.x = x;
         this.y = y;
-
-        this.color = 1;
-
-        this.rounds = 0;
 
         this.directions = [
             [this.x - 1, this.y - 1],
@@ -26,8 +20,7 @@ class Grass{
 
     }
 
-
-    findFields(Objekt){
+    findFields(objekt){
 
 
 
@@ -44,19 +37,30 @@ class Grass{
                 //in matrix sehen
                 let matrixWert = matrix[myY][myX];
 
-                if (matrixWert === Objekt){
+                if (matrixWert === objekt){
                     found.push(pos);
                 }
             }
-
-
-
-            /*if (matrix[myY][myX] === 0){
-                matrix[myY][myX] = 1;
-            }*/
         }
         return found;
     }
+}
+
+
+
+
+class Grass extends Creatures{
+
+    constructor(x,y){
+        super(x,y);
+
+        this.color = 1;
+
+        this.rounds = 0;
+        this.name = "Koala_hoch2";
+
+    }
+
 
     mul(){
         this.rounds++;
@@ -89,31 +93,17 @@ class Grass{
 
 
 
-class Grazer{
+class Grazer extends Creatures{
     constructor(x,y){
 
-        this.name = "Koala_hoch3";
-
-        this.x = x;
-        this.y = y;
-
+        super(x,y);
+        
         this.color = 2;
-
+        
         this.rounds1 = 0;
         this.rounds2 = 0;
-
-        this.directions = [
-            [this.x - 1, this.y - 1],
-            [this.x    , this.y - 1],
-            [this.x + 1, this.y - 1],
-            [this.x - 1, this.y    ],
-            [this.x    , this.y    ],
-            [this.x + 1, this.y    ],
-            [this.x - 1, this.y + 1],
-            [this.x    , this.y + 1],
-            [this.x + 1, this.y + 1]
-
-        ];
+        
+        this.name = "Koala_hoch3";
 
     }
 
@@ -133,35 +123,11 @@ class Grazer{
     }
 
 
-    findFields(Objekt){
+    findFields(objekt){
 
         this.updateDirections();
 
-        let found = [];
-    
-        for(let h = 0; h < this.directions.length; h++){
-            let pos = this.directions[h];
-            let myX = pos[0];
-            let myY = pos[1];
-    
-            //spielgrenzen-Prüfung
-            if(myY >= 0 && myY < matrix.length && myX >= 0 && myX < matrix[0].length){
-                //in matrix sehen
-                let matrixWert = matrix[myY][myX];
-    
-                if (matrixWert === Objekt){
-                    found.push(pos);
-                }        
-            }
-
-    
-    
-    
-                /*if (matrix[myY][myX] === 0){
-                    matrix[myY][myX] = 1;
-                }*/
-        }
-        return found;
+        return super.findFields(objekt);
     }
 
     move(){
@@ -257,32 +223,19 @@ class Grazer{
 }
 
 //Grazerzer(Fleischfresser) laufen über Gras, ohne die Fähigkeiten dieses Grases zu beeinflussen
-class Grazerzer{
+class Grazerzer extends Creatures{
     constructor(x,y){
 
-        this.name = "Koala_hoch4";
+        super(x,y)
 
-        this.x = x;
-        this.y = y;
+        this.name = "Koala_hoch4";
 
         this.color = 3;
 
         this.rounds1 = 0;
         this.rounds2 = 0;
 
-        this.directions = [
-            [this.x - 1, this.y - 1],
-            [this.x    , this.y - 1],
-            [this.x + 1, this.y - 1],
-            [this.x - 1, this.y    ],
-            [this.x    , this.y    ],
-            [this.x + 1, this.y    ],
-            [this.x - 1, this.y + 1],
-            [this.x    , this.y + 1],
-            [this.x + 1, this.y + 1]
-
-        ];
-
+        
     }
 
     updateDirections(){
@@ -301,35 +254,10 @@ class Grazerzer{
     }
 
 
-    findFields(Objekt){
+    findFields(objekt){
 
         this.updateDirections();
-
-        let found = [];
-    
-        for(let h = 0; h < this.directions.length; h++){
-            let pos = this.directions[h];
-            let myX = pos[0];
-            let myY = pos[1];
-    
-            //spielgrenzen-Prüfung
-            if(myY >= 0 && myY < matrix.length && myX >= 0 && myX < matrix[0].length){
-                //in matrix sehen
-                let matrixWert = matrix[myY][myX];
-    
-                if (matrixWert === Objekt){
-                    found.push(pos);
-                }        
-            }
-
-    
-    
-    
-                /*if (matrix[myY][myX] === 0){
-                    matrix[myY][myX] = 1;
-                }*/
-        }
-        return found;
+        return super.findFields(objekt);
     }
 
     move(){
@@ -440,31 +368,16 @@ class Haus{
 }
 
 
-class Zerstorer{
+class Zerstorer extends Creatures{
     constructor(x,y){
 
-        this.name = "Koala_hoch6";
+        super(x,y);
 
-        this.x = x;
-        this.y = y;
+        this.name = "Koala_hoch6";
 
         this.color = 5;
 
         this.teleportCounter = 0;
-
-
-        this.directions = [
-            [this.x - 1, this.y - 1],
-            [this.x    , this.y - 1],
-            [this.x + 1, this.y - 1],
-            [this.x - 1, this.y    ],
-            [this.x    , this.y    ],
-            [this.x + 1, this.y    ],
-            [this.x - 1, this.y + 1],
-            [this.x    , this.y + 1],
-            [this.x + 1, this.y + 1]
-
-        ];
 
     }
 
@@ -484,35 +397,11 @@ class Zerstorer{
     }
 
 
-    findFields(Objekt){
+    findFields(objekt){
 
         this.updateDirections();
 
-        let found = [];
-    
-        for(let h = 0; h < this.directions.length; h++){
-            let pos = this.directions[h];
-            let myX = pos[0];
-            let myY = pos[1];
-    
-            //spielgrenzen-Prüfung
-            if(myY >= 0 && myY < matrix.length && myX >= 0 && myX < matrix[0].length){
-                //in matrix sehen
-                let matrixWert = matrix[myY][myX];
-    
-                if (matrixWert === Objekt){
-                    found.push(pos);
-                }        
-            }
-
-    
-    
-    
-                /*if (matrix[myY][myX] === 0){
-                    matrix[myY][myX] = 1;
-                }*/
-        }
-        return found;
+        return super.findFields(objekt);
     }
 
     move(){
