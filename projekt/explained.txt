@@ -1,5 +1,3 @@
-/*
-
 
 Dieses Projekt funktioniert, indem sich verschiedene Lebewesen um die Daseinsberechtigung steiten.
 Vorhanden sind Gräser(grass), Grasfresser(grazer), Fleischfresser(grazerzer), und Zerstörer(Zerstorer).
@@ -9,6 +7,3 @@ grazer, um das Gras zu zerstören, damit die Zerstorer aussterben. Um dem entgeg
 die grazerzer, welcher wiederum die Zerstorer unterstützen und die grazerzer ausschalten. Das Spiel ist zu Ende, sobald
 nur noch 2 neutrale oder verbündete Spielfiguren vorhanden sind,welche nicht im Konflikt miteinander stehen, oder nur noch Gras existiert.(Gras-Haus;Gras-Zerstorer;Gras)
 Dies ist meine Beschreibung für das Spiel.
-
-
-*/
