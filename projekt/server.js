@@ -142,6 +142,31 @@ function updateGame(){
 
 initGame();
 
-setInterval(function(){
+/*setInterval(function(){
     updateGame(); //ehemals die draw();
-}, 1000)
+}, 1000)*/
+
+
+const express = require("express");
+const { request } = require("http");
+const { userInfo } = require("os");
+const app = express();
+
+app.get("/", function(req,res){
+
+    res.redirect("index.html");
+    res.send("Hello User");
+
+})
+
+app.get("/*", function(req,res){
+
+    res.send(404);
+
+})
+
+app.listen( 3000, function(){
+
+    console.log("hat funktioniert ! Port ist 3000!");
+
+});
