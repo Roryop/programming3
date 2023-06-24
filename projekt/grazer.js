@@ -1,4 +1,5 @@
 const Creatures = require("./creatures");
+const random = require("./utils");
 
 module.exports = class Grazer extends Creatures{
     constructor(x,y){

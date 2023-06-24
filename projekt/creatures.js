@@ -1,3 +1,5 @@
+const random = require("./utils");
+
 module.exports = class Creatures{
     constructor(x,y){
 

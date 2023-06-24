@@ -4,12 +4,22 @@ const Grazerzer = require("./grazerzer");
 const Haus = require("./haus");
 const Zerstorer = require("./zerstorer");
 
+const random = require("./utils");
+
+const express = require("express");
+const app = express();
+let server = require("http").Server(app);
+const io = require("socket.io")(server);
+
+app.use(express.static("./"));
+app.get("/", function(req, res){
+    res.redirect("client.html");
+})
 
 
 
 
-
-let matrix = [
+matrix = [
     [0, 0, 1, 0, 0],
     [1, 0, 0, 0, 0],
     [0, 1, 0, 0, 0],
@@ -22,18 +32,18 @@ let matrix = [
 ];
 
 
-let grassArr = [];
-let grazerArr = [];
-let grazerzerArr = [];
-let hausArr = [];
-let ZerstorerArr = [];
+grassArr = [];
+grazerArr = [];
+grazerzerArr = [];
+hausArr = [];
+ZerstorerArr = [];
 
 
 
 
 
 
-function randomMatrix(h,b){
+function randomMatrix(){
     let matrix = [];
 
     for(let i = 0; i < h; i++){
@@ -72,29 +82,24 @@ function randomMatrix(h,b){
 
 function initGame(){
 
-    //matrix = randomMatrix(50,50);
+    //matrix = randomMatrix();
 
     for(let y = 0; y < matrix.length; y++){
         for(let x = 0; x < matrix[y].length; x++){
             if (matrix[y][x] === 1){
                 let GrassObj = new Grass(x,y);
-                console.log(GrassObj);
                 grassArr.push(GrassObj);
             } else if (matrix[y][x] === 2){
                 let grazerObj = new Grazer(x,y);
-                console.log(grazerObj);
                 grazerArr.push(grazerObj);
             } else if (matrix[y][x] === 3){
                 let grazerzerObj = new Grazerzer(x,y);
-                console.log(grazerzerObj);
                 grazerzerArr.push(grazerzerObj);
             } else if (matrix[y][x] === 4){
                 let hausObj = new Haus(x,y);
-                console.log(hausObj);
                 hausArr.push(hausObj);
             } else if (matrix[y][x] === 5){
                 let ZerstorerObj = new Zerstorer(x,y);
-                console.log(ZerstorerObj);
                 ZerstorerArr.push(ZerstorerObj);
             }
         }
@@ -117,7 +122,6 @@ function updateGame(){
         let grazerObj = grazerArr[i];
         grazerObj.eat();
         grazerObj.mul();
-        console.log(grazerArr[0]);
         grazerObj.die();
         
     }
@@ -132,7 +136,7 @@ function updateGame(){
 
     for (let i = 0; i < ZerstorerArr.length; i++) {
         let ZerstorerObj = ZerstorerArr[i];
-        //ZerstorerObj.teleport();
+        ZerstorerObj.teleport();
         ZerstorerObj.eat();
         ZerstorerObj.die();
 
@@ -140,33 +144,14 @@ function updateGame(){
     }
 }
 
-initGame();
-
-/*setInterval(function(){
-    updateGame(); //ehemals die draw();
-}, 1000)*/
 
 
-const express = require("express");
-const { request } = require("http");
-const { userInfo } = require("os");
-const app = express();
+server.listen(3000, function(){
+    console.log("Server gestartet! Port 3000!");
 
-app.get("/", function(req,res){
+    initGame();
 
-    res.redirect("index.html");
-    res.send("Hello User");
-
+    setInterval(function(){
+        updateGame(); //ehemals die draw();
+    }, 1000)
 })
-
-app.get("/*", function(req,res){
-
-    res.send(404);
-
-})
-
-app.listen( 3000, function(){
-
-    console.log("hat funktioniert ! Port ist 3000!");
-
-});

@@ -1,4 +1,5 @@
 const Creatures = require("./creatures");
+const random = require("./utils");
 
 module.exports = class Zerstorer extends Creatures{
     constructor(x,y){
@@ -88,7 +89,7 @@ module.exports = class Zerstorer extends Creatures{
                     //löschen
                     matrix[ZerstorerObj.y][ZerstorerObj.x] = 0;
                     ZerstorerArr.splice(i,1);
-                    console.log(ZerstorerArr);
+                    //console.log(ZerstorerArr);
                     break;
                 }
             }
@@ -100,7 +101,7 @@ module.exports = class Zerstorer extends Creatures{
             let newX = Math.floor(random(0, matrix[0].length - 1));
             let newY = Math.floor(random(0, matrix.length - 1));
 
-            console.log(newX,newY);
+            //console.log(newX,newY);
 
             matrix[newY][newX] = 5;
             matrix[this.y][this.x] = 1;

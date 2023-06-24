@@ -1,4 +1,5 @@
 const Creatures = require("./creatures");
+const random = require("./utils");
 
 module.exports = class Grass extends Creatures{
 
@@ -15,7 +16,6 @@ module.exports = class Grass extends Creatures{
 
     mul(){
         this.rounds++;
-        console.log(this.rounds);
         if(this.rounds >= 6){
 
             let emptyFields = this.findFields(0); //array mit pos arrays
