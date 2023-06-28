@@ -108,7 +108,7 @@ function initGame(){
 
 function updateGame(){
 
-    console.log(matrix);
+    matrix = matrix;
 
 
 
@@ -136,7 +136,6 @@ function updateGame(){
 
     for (let i = 0; i < ZerstorerArr.length; i++) {
         let ZerstorerObj = ZerstorerArr[i];
-        ZerstorerObj.teleport();
         ZerstorerObj.eat();
         ZerstorerObj.die();
 
@@ -149,9 +148,17 @@ function updateGame(){
 server.listen(3000, function(){
     console.log("Server gestartet! Port 3000!");
 
-    initGame();
+})
 
-    setInterval(function(){
-        updateGame(); //ehemals die draw();
-    }, 1000)
+io.on('connection', function(socket){
+    console.log("ws connection established", io.engine.clientsCount);
+
+
+    if(io.engine.clientsCount == 1){
+        initGame();
+        setInterval(function(){
+            updateGame(); 
+            io.sockets.emit("send matrix", matrix);
+        }, 1000)
+    }
 })
