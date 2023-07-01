@@ -9,7 +9,7 @@ module.exports = class Zerstorer extends Creatures{
         this.name = "Koala_hoch6";
 
         this.color = 5;
-        this.walkingOn = 1;
+        this.walkingOn = 0;
 
         this.teleportCounter = 0;
 
@@ -98,8 +98,8 @@ module.exports = class Zerstorer extends Creatures{
 
 
     teleport(){
-            let newX = Math.floor(random(0, matrix[0].length - 1));
-            let newY = Math.floor(random(0, matrix.length - 1));
+            let newX = Math.floor(Math.random() * (matrix[0].length - 1));
+            let newY = Math.floor(Math.random() * (matrix.length - 1));
 
             //console.log(newX,newY);
 

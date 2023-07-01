@@ -7,6 +7,7 @@ const Zerstorer = require("./zerstorer");
 const random = require("./utils");
 
 const express = require("express");
+const { ALL } = require("dns");
 const app = express();
 let server = require("http").Server(app);
 const io = require("socket.io")(server);
@@ -43,33 +44,31 @@ ZerstorerArr = [];
 
 
 
-function randomMatrix(){
+function randomMatrix(h,b){
     let matrix = [];
 
     for(let i = 0; i < h; i++){
         matrix.push([]);
         for(let l = 0; l < b; l++){
-            let b = random(-100,20);
-            if (b <= -50){
+            let c = Math.floor(Math.random()* 50);
+            if (c <= 30){
                 matrix[i].push(0);
-            } else if (b <= 20){
+            } else if (c <= 50){
                 matrix[i].push(1);
             }
         }
     }
     for (let i = 0; i < matrix.length / 5; i++){
-        matrix[Math.floor(random(0, matrix.length - 1))][Math.floor(random(0, matrix[0].length - 1))] = 2;
+        matrix[Math.floor(Math.random() * (matrix.length - 1))][Math.floor(Math.random() * (matrix[0].length - 1))] = 2;
     }
-
     for (let i = 0; i < matrix.length / 5; i++){
-        matrix[Math.floor(random(0, matrix.length - 1))][Math.floor(random(0, matrix[0].length - 1))] = 3;
-    }
-
-    for (let i = 0; i < matrix.length * 1.25; i++){
-        matrix[Math.floor(random(0, matrix.length - 1))][Math.floor(random(0, matrix[0].length - 1))] = 4;
+        matrix[Math.floor(Math.random() * (matrix.length - 1))][Math.floor(Math.random() * (matrix[0].length - 1))] = 3;
     }
     for (let i = 0; i < matrix.length * 1.25; i++){
-        matrix[Math.floor(random(0, matrix.length - 1))][Math.floor(random(0, matrix[0].length - 1))] = 5;
+        matrix[Math.floor(Math.random() * (matrix.length - 1))][Math.floor(Math.random() * (matrix[0].length - 1))] = 4;
+    }
+    for (let i = 0; i < matrix.length * 1.25; i++){
+        matrix[Math.floor(Math.random() * (matrix.length - 1))][Math.floor(Math.random() * (matrix[0].length - 1))] = 5;
     }
 
 
@@ -82,7 +81,7 @@ function randomMatrix(){
 
 function initGame(){
 
-    //matrix = randomMatrix();
+    matrix = randomMatrix(10,10);
 
     for(let y = 0; y < matrix.length; y++){
         for(let x = 0; x < matrix[y].length; x++){
@@ -156,9 +155,49 @@ io.on('connection', function(socket){
 
     if(io.engine.clientsCount == 1){
         initGame();
+        socket.emit("init matrix", matrix);
         setInterval(function(){
             updateGame(); 
             io.sockets.emit("send matrix", matrix);
         }, 1000)
+    } else {
+        socket.emit("init matrix", matrix);
     }
+
+    //callbacks for client messages
+    function killGrass(data){
+        console.log("Data received, kill ", + data);
+        //kill Grass
+        for(i = grassArr.length - 1; i >= 0; i--){
+            let x = grassArr[i].x;
+            let y = grassArr[i].y;
+            matrix[y][x] = 0;
+            grassArr.pop();
+        }
+    }
+    function killGrazer(data){
+        console.log("Data received, kill ", + data);
+        //kill Grass
+        for(i = grazerArr.length - 1; i >= 0; i--){
+            let x = grazerArr[i].x;
+            let y = grazerArr[i].y;
+            matrix[y][x] = 0;
+            grazerArr.pop();
+        }
+    }
+    function killGrazerzer(data){
+        console.log("Data received, kill ", + data);
+        //kill Grass
+        for(i = grazerzerArr.length - 1; i >= 0; i--){
+            let x = grazerzerArr[i].x;
+            let y = grazerzerArr[i].y;
+            matrix[y][x] = 0;
+            grazerzerArr.pop();
+        }
+    }
+
+    socket.on("kill Grass", killGrass)
+    socket.on("kill Grazer", killGrazer)
+    socket.on("kill Grazerzer", killGrazerzer)
+
 })

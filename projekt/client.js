@@ -1,4 +1,4 @@
-let fr = 5;
+let fr = 2;
 let p = 40;
 let matrix = [];
 
@@ -11,7 +11,44 @@ function main(){
         //matrix, die hergeschickt wurde, zeichnen
         matrix = matrixData;
     }
-    socket.on("send matrix", openMatrix)
+    function initMatrix(matrixData){
+        //matrix, die hergeschickt wurde, zeichnen
+        matrix = matrixData;
+        resizeCanvas(matrix[0].length * p + 1, matrix.length * p + 1);
+    }
+    socket.on("init matrix", openMatrix)
+    socket.on("send matrix", initMatrix)
+
+    //Click-Events:
+
+    const killGrassBTN = document.getElementById("killGrass");
+
+    function killGrass(){
+        //send message to server
+        socket.emit("kill Grass",1)
+        console.log("kill Grass");
+    }
+
+    const killGrazerBTN = document.getElementById("killGrazer");
+
+    function killGrazer(){
+        //send message to server
+        socket.emit("kill Grazer",2)
+        console.log("kill Grazer");
+    }
+
+    const killGrazerzerBTN = document.getElementById("killGrazerzer");
+
+    function killGrazerzer(){
+        //send message to server
+        socket.emit("kill Grazerzer",3)
+        console.log("kill Grazerzer");
+    }
+
+
+    killGrassBTN.addEventListener("click", killGrass)
+    killGrazerBTN.addEventListener("click", killGrazer)
+    killGrazerzerBTN.addEventListener("click", killGrazerzer)
 }
 
 main();
@@ -20,11 +57,11 @@ main();
 
 
 function setup(){
-    frameRate(fr);
 
     //createCanvas(matrix[0].length * p + 1, matrix.length * p + 1);
     createCanvas(500,500);
     background(255,255,210);
+    frameRate(fr);
 }
 
 function draw(){
@@ -47,3 +84,4 @@ function draw(){
         }
     }
 }
+

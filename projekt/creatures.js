@@ -47,7 +47,7 @@ module.exports = class Creatures{
         return found;
     }
     move(){
-        let grassFields = this.findFields(this.walkingOn); //array mit pos arrays
+        let grassFields = this.findFields(0); //array mit pos arrays
         if (grassFields.length > 0){
 
             //wähle zufällige Pos aus
@@ -57,7 +57,7 @@ module.exports = class Creatures{
 
             //matrix updaten
             matrix[newY][newX] = this.color;
-            matrix[this.y][this.x] = this.walkingOn;
+            matrix[this.y][this.x] = 0;
 
             //update
             this.y = newY;

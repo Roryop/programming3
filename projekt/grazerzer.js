@@ -9,7 +9,7 @@ module.exports = class Grazerzer extends Creatures{
         this.name = "Koala_hoch4";
 
         this.color = 3;
-        this.walkingOn = 1;
+        this.walkingOn = 0;
 
         this.rounds1 = 0;
         this.rounds2 = 0;
