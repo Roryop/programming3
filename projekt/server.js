@@ -168,32 +168,34 @@ io.on('connection', function(socket){
     function killGrass(data){
         console.log("Data received, kill ", + data);
         //kill Grass
-        for(i = grassArr.length - 1; i >= 0; i--){
+        for(let i = grassArr.length - 1; i >= 0; i--){
             let x = grassArr[i].x;
             let y = grassArr[i].y;
             matrix[y][x] = 0;
-            grassArr.pop();
         }
+        grassArr = [];
+        io.sockets.emit("send matrix", matrix);
+        console.log(grassArr);
     }
     function killGrazer(data){
         console.log("Data received, kill ", + data);
         //kill Grass
-        for(i = grazerArr.length - 1; i >= 0; i--){
+        for(let i = grazerArr.length - 1; i >= 0; i--){
             let x = grazerArr[i].x;
             let y = grazerArr[i].y;
             matrix[y][x] = 0;
-            grazerArr.pop();
         }
+        grazerArr = [];
     }
     function killGrazerzer(data){
         console.log("Data received, kill ", + data);
         //kill Grass
-        for(i = grazerzerArr.length - 1; i >= 0; i--){
+        for(let i = grazerzerArr.length - 1; i >= 0; i--){
             let x = grazerzerArr[i].x;
             let y = grazerzerArr[i].y;
             matrix[y][x] = 0;
-            grazerzerArr.pop();
         }
+        grazerzerArr = [];
     }
 
     socket.on("kill Grass", killGrass)
