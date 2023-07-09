@@ -79,19 +79,35 @@ module.exports = class Grazerzer extends Creatures{
     }
 
     mul(){
-        if (this.rounds1 === 2){
-            let grassFields = this.findFields(1); //array mit pos arrays
-            if (grassFields.length > 0){
-            let randPos = random(grassFields); // x,y
-            let newX = randPos[0];
-            let newY = randPos[1];
-
-            let grazerzerObj = new Grazerzer(newX,newY);
-            matrix[newY][newX] = 2;
-            grazerzerArr.push(grazerzerObj);
+        if(summer){
+            if (this.rounds1 === 6){
+                let grassFields = this.findFields(0); //array mit pos arrays
+                if (grassFields.length > 0){
+                let randPos = random(grassFields); // x,y
+                let newX = randPos[0];
+                let newY = randPos[1];
+    
+                let grazerzerObj = new Grazerzer(newX,newY);
+                matrix[newY][newX] = 3;
+                grazerzerArr.push(grazerzerObj);
+                }
+                this.rounds1 = 0;
             }
-
-
+        }
+        if(winter){
+            if (this.rounds1 === 2){
+                let grassFields = this.findFields(0); //array mit pos arrays
+                if (grassFields.length > 0){
+                let randPos = random(grassFields); // x,y
+                let newX = randPos[0];
+                let newY = randPos[1];
+    
+                let grazerzerObj = new Grazerzer(newX,newY);
+                matrix[newY][newX] = 3;
+                grazerzerArr.push(grazerzerObj);
+                }
+                this.rounds1 = 0;
+            }
         }
     }
 

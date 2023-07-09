@@ -79,7 +79,7 @@ module.exports = class Zerstorer extends Creatures{
 
     die(){
         let grassFields = this.findFields(1);
-        if (grassFields.length <= 4){
+        if (grassFields.length >= 4){
             this.teleport();
         }
         if (grassFields.length === 0){
@@ -89,7 +89,6 @@ module.exports = class Zerstorer extends Creatures{
                     //löschen
                     matrix[ZerstorerObj.y][ZerstorerObj.x] = 0;
                     ZerstorerArr.splice(i,1);
-                    //console.log(ZerstorerArr);
                     break;
                 }
             }
@@ -98,17 +97,51 @@ module.exports = class Zerstorer extends Creatures{
 
 
     teleport(){
-            let newX = Math.floor(Math.random() * (matrix[0].length - 1));
-            let newY = Math.floor(Math.random() * (matrix.length - 1));
+        let newX = Math.floor(Math.random() * (matrix[0].length - 1));
+        let newY = Math.floor(Math.random() * (matrix.length - 1));
 
-            //console.log(newX,newY);
+        //console.log(newX,newY);
 
-            matrix[newY][newX] = 5;
-            matrix[this.y][this.x] = 1;
+        matrix[newY][newX] = 5;
+        matrix[this.y][this.x] = 0;
 
-            this.y = newY;
-            this.x = newX;
+        this.y = newY;
+        this.x = newX;
 
-            this.teleportCounter = 0;
+        for (let i = 0; i < grassArr.length; i++) {
+            let grassObj = grassArr[i];
+            if (this.x === grassObj.x && this.y === grassObj.y){
+                //löschen
+                grassArr.splice(i,1);
+                break;
+            }
+        }
+        for (let i = 0; i < grazerArr.length; i++) {
+            let grazerObj = grazerArr[i];
+            if (this.x === grazerObj.x && this.y === grazerObj.y){
+                //löschen
+                grazerArr.splice(i,1);
+                break;
+            }
+        }
+        for (let i = 0; i < grazerzerArr.length; i++) {
+            let grazerzerObj = grazerzerArr[i];
+            if (this.x === grazerzerObj.x && this.y === grazerzerObj.y){
+                //löschen
+                grazerzerArr.splice(i,1);
+                break;
+            }
+        }
+        for (let i = 0; i < hausArr.length; i++) {
+            let hausObj = hausArr[i];
+            if (this.x === hausObj.x && this.y === hausObj.y){
+                //löschen
+                hausArr.splice(i,1);
+                break;
+            }
+        }
+
+        this.teleportCounter = 0;
+        
     }
 }

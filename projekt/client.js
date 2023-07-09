@@ -1,6 +1,11 @@
 let fr = 2;
-let p = 40;
+let p = 10;
 let matrix = [];
+
+
+
+let localWinter = true;
+let localSummer = false;
 
 
 function main(){
@@ -16,8 +21,17 @@ function main(){
         matrix = matrixData;
         resizeCanvas(matrix[0].length * p + 1, matrix.length * p + 1);
     }
+
+    function openWinter(data){
+        localWinter = data;
+    }
+    function openSummer(data){
+        localSummer = data;
+    }
     socket.on("init matrix", openMatrix)
     socket.on("send matrix", initMatrix)
+    socket.on("winter", openWinter)
+    socket.on("summer", openSummer)
 
     //Click-Events:
 
@@ -25,7 +39,7 @@ function main(){
 
     function killGrass(){
         //send message to server
-        socket.emit("kill Grass",1)
+        socket.emit("kill Grass","ALL")
         console.log("kill Grass");
     }
 
@@ -33,7 +47,7 @@ function main(){
 
     function killGrazer(){
         //send message to server
-        socket.emit("kill Grazer",2)
+        socket.emit("kill Grazer","ALL")
         console.log("kill Grazer");
     }
 
@@ -41,7 +55,7 @@ function main(){
 
     function killGrazerzer(){
         //send message to server
-        socket.emit("kill Grazerzer",3)
+        socket.emit("kill Grazerzer","ALL")
         console.log("kill Grazerzer");
     }
 
@@ -70,7 +84,11 @@ function draw(){
             if (matrix[i][x] == 0){
                 fill("white");
             } else if (matrix[i][x] == 1){
-                fill("green");
+                if(localWinter){
+                    fill("gray");
+                } else {
+                    fill("green")
+                }
             } else if (matrix[i][x] == 2){
                 fill("yellow");
             } else if (matrix[i][x] == 3){

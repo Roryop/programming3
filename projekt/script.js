@@ -11,11 +11,11 @@ let matrix = [
 ];
 
 
-let grassArr = [];
-let grazerArr = [];
-let grazerzerArr = [];
-let hausArr = [];
-let ZerstorerArr = [];
+grassArr = [];
+grazerArr = [];
+grazerzerArr = [];
+hausArr = [];
+ZerstorerArr = [];
 
 
 

@@ -39,6 +39,13 @@ grazerzerArr = [];
 hausArr = [];
 ZerstorerArr = [];
 
+winter = true;
+summer = false;
+winterCount = 60;
+summerCount = 0;
+winterCountdown = 60;
+summerCountdown = 60;
+
 
 
 
@@ -51,17 +58,17 @@ function randomMatrix(h,b){
         matrix.push([]);
         for(let l = 0; l < b; l++){
             let c = Math.floor(Math.random()* 50);
-            if (c <= 30){
+            if (c <= 20){
                 matrix[i].push(0);
             } else if (c <= 50){
                 matrix[i].push(1);
             }
         }
     }
-    for (let i = 0; i < matrix.length / 5; i++){
+    for (let i = 0; i < matrix.length * 1.5; i++){
         matrix[Math.floor(Math.random() * (matrix.length - 1))][Math.floor(Math.random() * (matrix[0].length - 1))] = 2;
     }
-    for (let i = 0; i < matrix.length / 5; i++){
+    for (let i = 0; i < matrix.length * 1.5; i++){
         matrix[Math.floor(Math.random() * (matrix.length - 1))][Math.floor(Math.random() * (matrix[0].length - 1))] = 3;
     }
     for (let i = 0; i < matrix.length * 1.25; i++){
@@ -81,7 +88,7 @@ function randomMatrix(h,b){
 
 function initGame(){
 
-    matrix = randomMatrix(10,10);
+    matrix = randomMatrix(30,30);
 
     for(let y = 0; y < matrix.length; y++){
         for(let x = 0; x < matrix[y].length; x++){
@@ -108,15 +115,22 @@ function initGame(){
 function updateGame(){
 
     matrix = matrix;
-
+    
+    while(grassArr.length < 6){
+        let y = Math.floor(Math.random() * (matrix.length - 1));
+        let x = Math.floor(Math.random() * (matrix[0].length - 1));
+        matrix[y][x] = 1;
+        if (matrix[y][x] === 1){
+            let GrassObj = new Grass(x,y);
+            grassArr.push(GrassObj);
+        }
+    }
 
 
     for (let i = 0; i < grassArr.length; i++) {
         let grassObj = grassArr[i];
         grassObj.mul();
-        
     }
-
     for (let i = 0; i < grazerArr.length; i++) {
         let grazerObj = grazerArr[i];
         grazerObj.eat();
@@ -140,6 +154,27 @@ function updateGame(){
 
         
     }
+
+    winterCount++;
+    summerCount++;
+    if(winterCount >= 60){
+        winter = true;
+        winterCountdown--;
+        if(winterCountdown == 0){
+            winterCount = 0;
+            winter = false;
+            winterCountdown = 60;
+        }
+    } 
+    if(summerCount >= 60){
+        summer = true;
+        summerCountdown--;
+        if(summerCountdown == 0){
+            summerCount = 0;
+            summer = false;
+            summerCountdown = 60;
+        }
+    }
 }
 
 
@@ -159,6 +194,9 @@ io.on('connection', function(socket){
         setInterval(function(){
             updateGame(); 
             io.sockets.emit("send matrix", matrix);
+            io.sockets.emit("winter",winter);
+            io.sockets.emit("summer",summer);
+            console.log(summer,winter);
         }, 1000)
     } else {
         socket.emit("init matrix", matrix);
@@ -179,23 +217,27 @@ io.on('connection', function(socket){
     }
     function killGrazer(data){
         console.log("Data received, kill ", + data);
-        //kill Grass
+        //kill Grazer
         for(let i = grazerArr.length - 1; i >= 0; i--){
             let x = grazerArr[i].x;
             let y = grazerArr[i].y;
             matrix[y][x] = 0;
         }
         grazerArr = [];
+        io.sockets.emit("send matrix", matrix);
+        console.log(grazerArr);
     }
     function killGrazerzer(data){
         console.log("Data received, kill ", + data);
-        //kill Grass
+        //kill Grazerzer
         for(let i = grazerzerArr.length - 1; i >= 0; i--){
             let x = grazerzerArr[i].x;
             let y = grazerzerArr[i].y;
             matrix[y][x] = 0;
         }
         grazerzerArr = [];
+        io.sockets.emit("send matrix", matrix);
+        console.log(grazerzerArr);
     }
 
     socket.on("kill Grass", killGrass)

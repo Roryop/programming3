@@ -16,28 +16,49 @@ module.exports = class Grass extends Creatures{
 
     mul(){
         this.rounds++;
-        if(this.rounds >= 6){
+        if(summer){
+            if(this.rounds >= 2){
 
-            let emptyFields = this.findFields(0); //array mit pos arrays
-            if (emptyFields.length > 0){
+                let emptyFields = this.findFields(0); //array mit pos arrays
+                if (emptyFields.length > 0){
+    
+                    //wähle zufällige Pos aus
+                    let randPos = random(emptyFields); // x,y
+                    let newX = randPos[0];
+                    let newY = randPos[1];
+    
+                    //matrix updaten
+                    matrix[newY][newX] = 1;
+    
+                    //neues grassObj
+                    let grassObj = new Grass(newX, newY);
+                    grassArr.push(grassObj);
 
-                //wähle zufällige Pos aus
-                let randPos = random(emptyFields); // x,y
-                let newX = randPos[0];
-                let newY = randPos[1];
-
-                //matrix updaten
-                matrix[newY][newX] = 1;
-
-                //neues grassObj
-                let grassObj = new Grass(newX, newY);
-                grassArr.push(grassObj);
-
-
+                }
+                this.rounds = 0;
             }
+        }
+        if (winter){
+            if(this.rounds >= 10){
 
+                let emptyFields = this.findFields(0); //array mit pos arrays
+                if (emptyFields.length > 0){
+    
+                    //wähle zufällige Pos aus
+                    let randPos = random(emptyFields); // x,y
+                    let newX = randPos[0];
+                    let newY = randPos[1];
+    
+                    //matrix updaten
+                    matrix[newY][newX] = 1;
+    
+                    //neues grassObj
+                    let grassObj = new Grass(newX, newY);
+                    grassArr.push(grassObj);
 
-            this.rounds = 0;
+                }
+                this.rounds = 0;
+            }
         }
     }
 }
